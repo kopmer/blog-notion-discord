@@ -14,12 +14,15 @@ Blog Notion Discord is a Node.js bot that automates the process of collecting bl
 
 When a study member submits a blog link in a Discord thread, the bot extracts the URL from the message, retrieves the blog post title, and records related information such as the author, submission date, deadline, and Discord metadata in Notion.
 
+When the bot starts, it first synchronizes existing messages from active and archived public threads. After the initial synchronization, it continues running and listens for new Discord messages in real time.
+
 This project was built to reduce the manual work of managing blog study submissions.
 
 ### Features
 
 * Collects blog links from Discord study threads
 * Supports active threads and archived public threads
+* Detects new Discord messages in real time while the bot is running
 * Extracts blog post titles from Discord embeds or page metadata
 * Saves submission data to a Notion database
 * Stores Discord server nickname and Discord account name
@@ -86,6 +89,21 @@ YY.MM.DD
 YYYY-MM-DD
 ```
 
+### Message Sync Flow
+
+The bot works in two steps.
+
+```text
+npm start
+→ Sync existing messages from active and archived public threads
+→ Listen for new Discord messages
+→ Save new blog submissions to Notion
+```
+
+Real-time message detection only works while the bot process is running.
+
+If the bot is stopped, new submissions will not be processed immediately. However, when the bot is started again, the existing message synchronization process can collect submissions that were posted while the bot was offline.
+
 ### Environment Variables
 
 Create a `.env` file based on `.env.example`.
@@ -121,6 +139,8 @@ Or run directly:
 ```bash
 node index.js
 ```
+
+After running the bot, keep the process active if you want to detect new Discord messages in real time.
 
 ### Discord Bot Settings
 
@@ -176,12 +196,15 @@ Blog Notion Discord는 Discord 스터디 스레드에 제출된 블로그 링크
 
 스터디원이 Discord 스레드에 블로그 링크를 제출하면, 봇이 메시지에서 URL을 추출하고 블로그 글 제목, 작성자, 제출일, 마감일 등의 정보를 Notion 데이터베이스에 저장합니다.
 
+봇이 실행되면 먼저 활성 스레드와 보관된 public 스레드의 기존 메시지를 동기화합니다. 기존 메시지 동기화가 끝난 뒤에는 봇이 실행 상태를 유지하면서 새로 올라오는 Discord 메시지를 실시간으로 감지합니다.
+
 이 프로젝트는 기술 블로그 스터디 운영 과정에서 제출 기록을 수동으로 관리하는 번거로움을 줄이기 위해 제작되었습니다.
 
 ### 주요 기능
 
 * Discord 스터디 스레드의 블로그 링크 자동 수집
 * 활성 스레드 및 보관된 public 스레드 동기화
+* 봇 실행 중 새 Discord 메시지 실시간 감지
 * Discord Embed 또는 페이지 메타데이터 기반 글 제목 추출
 * Notion 데이터베이스에 제출 기록 저장
 * Discord 서버 닉네임 및 계정명 저장
@@ -248,6 +271,21 @@ YY.MM.DD
 YYYY-MM-DD
 ```
 
+### 메시지 동기화 흐름
+
+봇은 아래 흐름으로 동작합니다.
+
+```text
+npm start
+→ 활성 스레드 및 보관된 public 스레드의 기존 메시지 동기화
+→ 새 Discord 메시지 감지
+→ 새로운 블로그 제출 기록을 Notion에 저장
+```
+
+새 메시지 실시간 감지는 봇 프로세스가 실행 중일 때만 동작합니다.
+
+봇이 종료된 상태에서는 새 제출을 즉시 처리하지 못합니다. 다만 나중에 봇을 다시 실행하면 기존 메시지 동기화 과정에서 봇이 꺼져 있는 동안 제출된 링크도 수집할 수 있습니다.
+
 ### 환경 변수 설정
 
 `.env.example` 파일을 참고하여 `.env` 파일을 생성합니다.
@@ -283,6 +321,8 @@ npm start
 ```bash
 node index.js
 ```
+
+새 Discord 메시지를 실시간으로 감지하려면 봇 프로세스를 종료하지 않고 실행 상태로 유지해야 합니다.
 
 ### Discord Bot 설정
 
