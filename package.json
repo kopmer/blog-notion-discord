@@ -1,0 +1,18 @@
+{
+  "name": "discord-notion-blog-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@notionhq/client": "^2.2.15",
+    "discord.js": "^14.26.4",
+    "dotenv": "^17.4.2"
+  }
+}
