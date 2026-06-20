@@ -515,10 +515,19 @@ discord.once("clientReady", async () => {
 
   try {
     await syncExistingThreadMessages();
-    console.log("작업 완료. 프로그램을 종료해도 됩니다.");
+    console.log("기존 메시지 동기화 완료. 새 메시지를 감지합니다.");
   } catch (error) {
     console.error("동기화 중 오류 발생");
     console.error(error);
+  }
+});
+
+discord.on("messageCreate", async (message) => {
+  try {
+    await handleMessage(message);
+  } catch (error) {
+    console.error("새 메시지 처리 중 오류 발생");
+    console.error(error.message);
   }
 });
 
